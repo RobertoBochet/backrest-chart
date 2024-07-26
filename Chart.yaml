@@ -1,0 +1,14 @@
+apiVersion: v2
+name: backrest
+description: Backrest helm chart
+sources:
+  - https://github.com/RobertoBochet/backrest-chart.git
+maintainers:
+  - name: Roberto Bochet
+    email: r@robertobochet.me
+
+type: application
+
+version: 0.0.0-dev
+
+appVersion: "v1.3.1"
