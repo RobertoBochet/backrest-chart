@@ -1,0 +1,26 @@
+name: "Test PR"
+
+on:
+  pull_request:
+    types:
+      - synchronize
+
+jobs:
+  test-docs:
+    name: "Test docs"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 16
+    - name: Install readme-generator
+      run: |
+        npm --global install @bitnami/readme-generator-for-helm@2.6.1
+    - name: Generate docs
+      run: |
+        readme-generator -v values.yaml -r README.md
+    - name: Check docs
+      run: |
+        git diff --exit-code --name-only README.md

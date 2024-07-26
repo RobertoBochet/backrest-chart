@@ -1,0 +1,236 @@
+
+## Credits:
+## Chart is heavily based on gitea one (https://gitea.com/gitea/helm-chart)
+## They worked great, so there is no need to reinvent the wheel.
+
+
+## @section Common parameters
+## @param nameOverride String to partially override common.names.fullname
+nameOverride: ""
+## @param fullnameOverride String to fully override common.names.fullname
+fullnameOverride: ""
+## @param imagePullSecrets Secret to use for pulling the image
+imagePullSecrets: []
+
+## @section Image
+## @param image.registry image registry, e.g. gcr.io,docker.io
+## @param image.repository Image to start for this pod
+## @param image.tag Visit: Image tag. Defaults to `appVersion` within Chart.yaml.
+## @param image.pullPolicy Image pull policy
+image:
+  registry: ""
+  repository: garethgeorge/backrest
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+## @section Security
+## @param podSecurityContext Pod security context
+podSecurityContext: {}
+  # fsGroup: 2000
+
+## @param securityContext Security context
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+## @section Service
+## @param service.type Kubernetes service type for http traffic
+## @param service.port Port number for web traffic
+## @param service.clusterIP ClusterIP setting for http autosetup for deployment is None
+## @deprecated the loadBalancerIP service parameter are been deprecated by kubernetes
+## @param service.loadBalancerIP LoadBalancer IP setting
+## @param service.nodePort NodePort for http service
+## @param service.externalTrafficPolicy If `service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable source IP preservation
+## @param service.externalIPs External IPs for service
+## @param service.ipFamilyPolicy HTTP service dual-stack policy
+## @param service.ipFamilies HTTP service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/).
+## @param service.loadBalancerSourceRanges Source range filter for http loadbalancer
+## @param service.annotations HTTP service annotations
+## @param service.labels HTTP service additional labels
+## @param service.loadBalancerClass Loadbalancer class
+service:
+  type: ClusterIP
+  port: 9898
+  clusterIP: None
+  loadBalancerIP:
+  nodePort:
+  externalTrafficPolicy:
+  externalIPs:
+  ipFamilyPolicy:
+  ipFamilies:
+  loadBalancerSourceRanges: [ ]
+  annotations: { }
+  labels: { }
+  loadBalancerClass:
+
+## @section Ingress
+## @param ingress.enabled Enable ingress
+## @param ingress.className Ingress class name
+## @param ingress.annotations Ingress annotations
+## @param ingress.hosts[0].host Default Ingress host
+## @param ingress.hosts[0].paths[0].path Default Ingress path
+## @param ingress.hosts[0].paths[0].pathType Ingress path type
+## @param ingress.tls Ingress tls settings
+## @extra ingress.apiVersion Specify APIVersion of ingress object. Mostly would only be used for argocd.
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: backrest.example.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - backrest.example.local
+  # Mostly for argocd or any other CI that uses `helm template | kubectl apply` or similar
+  # If helm doesn't correctly detect your ingress API version you can set it here.
+  # apiVersion: networking.k8s.io/v1
+
+## @section deployment
+## @param resources Kubernetes resources
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+## @param podAnnotations Annotations
+podAnnotations: {}
+
+## @param startupProbe.enabled Enable startupProbe
+## @param startupProbe.initialDelaySeconds Initial delay seconds for startupProbe
+## @param startupProbe.periodSeconds Period seconds for startupProbe
+## @param startupProbe.timeoutSeconds Timeout seconds for startupProbe
+## @param startupProbe.failureThreshold Failure threshold for startupProbe
+## @param startupProbe.successThreshold Success threshold for startupProbe
+startupProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+## @param livenessProbe.enabled Enable livenessProbe
+## @param livenessProbe.initialDelaySeconds Initial delay seconds for livenessProbe
+## @param livenessProbe.periodSeconds Period seconds for livenessProbe
+## @param livenessProbe.timeoutSeconds Timeout seconds for livenessProbe
+## @param livenessProbe.failureThreshold Failure threshold for livenessProbe
+## @param livenessProbe.successThreshold Success threshold for livenessProbe
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+## @param readinessProbe.enabled Enable readinessProbe
+## @param readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
+## @param readinessProbe.periodSeconds Period seconds for readinessProbe
+## @param readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
+## @param readinessProbe.failureThreshold Failure threshold for readinessProbe
+## @param readinessProbe.successThreshold Success threshold for readinessProbe
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+## @param nodeSelector NodeSelector for the deployment
+nodeSelector: {}
+
+## @param tolerations Tolerations for the deployment
+tolerations: []
+
+## @param affinity Affinity for the deployment
+affinity: {}
+
+## @extra config Backrest configuration pass to container as environment variables
+## @param config.BACKREST_DATA Backrest data path
+## @param config.BACKREST_CONFIG Backrest config path
+## @param config.BACKREST_PORT Backrest webapp port
+config:
+  BACKREST_DATA: /backrest/data
+  BACKREST_CONFIG: /backrest/config.json
+  BACKREST_PORT: "0.0.0.0:9898"
+
+## @param env  Additional environment variables to pass to containers
+env: []
+# - name: VARIABLE
+#   value: my-value
+
+## @section ServiceAccount
+## @param serviceAccount.create Enable the creation of a ServiceAccount
+## @param serviceAccount.name Name of the created ServiceAccount, defaults to release name. Can also link to an externally provided ServiceAccount that should be used.
+## @param serviceAccount.automountServiceAccountToken Enable/disable auto mounting of the service account token
+## @param serviceAccount.imagePullSecrets Image pull secrets, available to the ServiceAccount
+## @param serviceAccount.annotations Custom annotations for the ServiceAccount
+## @param serviceAccount.labels Custom labels for the ServiceAccount
+serviceAccount:
+  create: false
+  name: ""
+  automountServiceAccountToken: false
+  imagePullSecrets: []
+  # - name: private-registry-access
+  annotations: {}
+  labels: {}
+
+## @section Persistence
+## @param persistence.enabled Enable persistent storage
+## @param persistence.claimName Use an existing claim to store repository information
+## @param persistence.size Size for persistence to store repo information
+## @param persistence.accessModes AccessMode for persistence
+## @param persistence.labels Labels for the persistence volume claim to be created
+## @param persistence.annotations.helm.sh/resource-policy Resource policy for the persistence volume claim
+## @param persistence.storageClass Name of the storage class to use
+## @param persistence.subPath Subdirectory of the volume to mount at
+## @param persistence.volumeName Name of persistent volume in PVC
+persistence:
+  enabled: true
+  claimName: backrest-storage
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  labels: {}
+  storageClass:
+  subPath:
+  volumeName: ""
+  annotations:
+    helm.sh/resource-policy: keep
+
+## @extra cache Volume for cache
+## @skip cache.emptyDir
+cache:
+  emptyDir: {}
+
+## @param extraVolumes Additional volumes to mount to the Gitea deployment
+extraVolumes: []
+# - name: postgres-ssl-vol
+#   secret:
+#     secretName: gitea-postgres-ssl
+
+## @param extraContainerVolumeMounts Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.
+extraContainerVolumeMounts: []
+
+## @section Miscellaneous
+## @param extraObjects Array of extra K8s manifests to deploy
+extraObjects: []
