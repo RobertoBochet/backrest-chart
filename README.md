@@ -7,19 +7,19 @@ This repo provides the (unofficial) helm chart for [Backrest](https://github.com
 
 ## Deploy
 
-Helm chart package is available in the github OCI registry
-```
-oci://ghcr.io/robertobochet/backrest-chart
-```
-You can use it to directly deploy on your kubernetes cluster
-1. Retrieve the default values file
+1. Add the repository to helm
    ```shell
-   helm show values oci://ghcr.io/robertobochet/backrest-chart > values.yaml
+   helm repo add backrest https://robertobochet.github.io/backrest-chart
+   helm repo update
    ```
-2. Customize the `values.yaml`
-3. Install backrest
+2. Retrieve the default values file
    ```shell
-   helm install scraper-bot oci://ghcr.io/robertobochet/backrest-chart -f values.yaml
+   helm show values backrest/backrest > values.yaml
+   ```
+3. Customize the `values.yaml`
+4. Install backrest
+   ```shell
+   helm install scraper-bot backrest/backrest -f values.yaml
    ```
 
 ## Parameters
@@ -31,6 +31,15 @@ You can use it to directly deploy on your kubernetes cluster
 | `nameOverride`     | String to partially override common.names.fullname | `""`  |
 | `fullnameOverride` | String to fully override common.names.fullname     | `""`  |
 | `imagePullSecrets` | Secret to use for pulling the image                | `[]`  |
+| `replicaCount`     | number of replicas for the deployment              | `1`   |
+
+### strategy
+
+| Name                                    | Description    | Value           |
+| --------------------------------------- | -------------- | --------------- |
+| `strategy.type`                         | strategy type  | `RollingUpdate` |
+| `strategy.rollingUpdate.maxSurge`       | maxSurge       | `100%`          |
+| `strategy.rollingUpdate.maxUnavailable` | maxUnavailable | `0`             |
 
 ### Image
 
