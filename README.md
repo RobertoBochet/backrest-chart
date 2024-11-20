@@ -1,9 +1,11 @@
-# Backrest Helm Chart
+# Backrest (unofficial) Helm Chart
 
 [![GitHub](https://img.shields.io/github/license/RobertoBochet/backrest-chart?style=flat-square)](https://github.com/RobertoBochet/backrest-chart)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/RobertoBochet/backrest-chart/release.yml?label=publish%20chart&style=flat-square)](https://github.com/RobertoBochet/scraper-bot/pkgs/container/backrest-chart)
+[![GitHub Latest Release Version](https://img.shields.io/github/v/release/RobertoBochet/backrest-chart?sort=semver&display_name=release&style=flat-square)]()
+[![Static Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fartifacthub.io%2Fbadge%2Frepository%2Fbackrest&style=flat-square)](https://artifacthub.io/packages/helm/backrest/backrest)
 
-This repo provides the (unofficial) helm chart for [Backrest](https://github.com/garethgeorge/backrest)
+[Backrest](https://github.com/garethgeorge/backrest) is a web UI and orchestrator for [restic](https://restic.net/) backup.
 
 ## Deploy
 

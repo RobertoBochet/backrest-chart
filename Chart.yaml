@@ -1,14 +1,20 @@
 apiVersion: v2
 name: backrest
-description: Backrest helm chart
+version: 0.0.0-dev
+description: Backrest (unofficial) helm chart
+type: application
+keywords:
+  - backrest
+  - restic
+  - backup
+  - webui
+home: https://github.com/RobertoBochet/backrest-chart.git
 sources:
   - https://github.com/RobertoBochet/backrest-chart.git
 maintainers:
   - name: Roberto Bochet
     email: r@robertobochet.me
-
-type: application
-
-version: 0.0.0-dev
-
+icon: https://github.com/garethgeorge/backrest/raw/main/webui/assets/logo-black.svg
 appVersion: "1.6.1"
+annotations:
+  artifacthub.io/license: GPL-3.0-or-later
