@@ -10,16 +10,12 @@ jobs:
     name: "Build chart"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set chart version
       run: |
         VERSION="${GITHUB_REF/refs\/tags\//}"
         VERSION="${VERSION/v/}"
         sed -i "s|^version:.*|version:\ \"${VERSION}\"|g" Chart.yaml
-    - name: Set chart name for ghcr.io repo
-      run: |
-        NAME=$(echo ${{ github.repository }} | rev | cut -d "/" -f 1 | rev)
-        sed -i "s|^name:.*|name:\ \"${NAME}\"|g" Chart.yaml
     - name: Helm tool installer
       uses: Azure/setup-helm@v4.2.0
       with:
@@ -33,27 +29,34 @@ jobs:
         name: charts
         path: "*.tgz"
 
-  publish-chart-github-oci:
-    name: "Publish chart to github OCI"
+  publish-chart-github-pages:
+    name: "Publish chart to github pages"
     runs-on: ubuntu-latest
     needs: build-chart
     permissions:
-      packages: write
+      contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 'gh-pages'
       - uses: actions/download-artifact@v4
         with:
           name: charts
       - name: Helm tool installer
         uses: Azure/setup-helm@v4.2.0
         with:
-          version: "3.15.3"
-      - name: Login into registry
+          version: "3.16.3"
+      - name: Regenerate Helm repo index
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
-      - name: Push to registry
+          helm repo index .
+      - name: Update github pages
         run: |
-          REGISTRY="oci://ghcr.io/$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
-          helm push "$(find *.tgz)" $REGISTRY
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          git add index.yaml *.tgz
+          export CHART_FILENAMES="$(git --no-pager diff --name-only --cached -- '*.tgz' | tr '\n' ' ')"
+          git commit -m "Add ${CHART_FILENAMES}"
+          git push origin gh-pages
 
   create-release:
     name: "Create release on GitHub"
