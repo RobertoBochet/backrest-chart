@@ -31,7 +31,7 @@ strategy:
 ## @param image.tag Visit: Image tag. Defaults to `appVersion` within Chart.yaml.
 ## @param image.pullPolicy Image pull policy
 image:
-  registry: ""
+  registry: "docker.io"
   repository: garethgeorge/backrest
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
@@ -40,16 +40,21 @@ image:
 ## @section Security
 ## @param podSecurityContext Pod security context
 podSecurityContext: {}
-  # fsGroup: 2000
+# fsGroup: 2000
 
-## @param securityContext Security context
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+## @param containerSecurityContext Security context
+containerSecurityContext: {}
+#   allowPrivilegeEscalation: false
+#   capabilities:
+#     drop:
+#       - ALL
+#     add:
+#       - SYS_CHROOT
+#   privileged: false
+#   readOnlyRootFilesystem: true
+#   runAsGroup: 1000
+#   runAsNonRoot: true
+#   runAsUser: 1000
 
 ## @section Service
 ## @param service.type Kubernetes service type for http traffic
@@ -209,7 +214,7 @@ serviceAccount:
 
 ## @section Persistence
 ## @param persistence.enabled Enable persistent storage
-## @param persistence.claimName Use an existing claim to store repository information
+## @param persistence.existingClaim Use an existing claim to store repository information
 ## @param persistence.size Size for persistence to store repo information
 ## @param persistence.accessModes AccessMode for persistence
 ## @param persistence.labels Labels for the persistence volume claim to be created
@@ -219,7 +224,7 @@ serviceAccount:
 ## @param persistence.volumeName Name of persistent volume in PVC
 persistence:
   enabled: true
-  claimName: backrest-storage
+  existingClaim:
   size: 10Gi
   accessModes:
     - ReadWriteOnce

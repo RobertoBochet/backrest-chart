@@ -2,8 +2,8 @@
 
 [![GitHub](https://img.shields.io/github/license/RobertoBochet/backrest-chart?style=flat-square)](https://github.com/RobertoBochet/backrest-chart)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/RobertoBochet/backrest-chart/release.yml?label=publish%20chart&style=flat-square)](https://github.com/RobertoBochet/scraper-bot/pkgs/container/backrest-chart)
-[![GitHub Latest Release Version](https://img.shields.io/github/v/release/RobertoBochet/backrest-chart?sort=semver&display_name=release&style=flat-square)]()
-[![Static Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fartifacthub.io%2Fbadge%2Frepository%2Fbackrest&style=flat-square)](https://artifacthub.io/packages/helm/backrest/backrest)
+[![GitHub Latest Release Version](https://img.shields.io/github/v/release/RobertoBochet/backrest-chart?sort=semver&display_name=release&style=flat-square)](https://github.com/RobertoBochet/backrest-chart/releases)
+[![Static Badge](https://img.shields.io/badge/-backrest-w?style=flat-square&logo=artifacthub&logoColor=white&logoSize=18&label=Artifact%20Hub&labelColor=417598&color=2D4857)](https://artifacthub.io/packages/helm/robertobochet/backrest)
 
 [Backrest](https://github.com/garethgeorge/backrest) is a web UI and orchestrator for [restic](https://restic.net/) backup.
 
@@ -11,17 +11,17 @@
 
 1. Add the repository to helm
    ```shell
-   helm repo add backrest https://robertobochet.github.io/backrest-chart
+   helm repo add robertobochet https://robertobochet.github.io/charts
    helm repo update
    ```
 2. Retrieve the default values file
    ```shell
-   helm show values backrest/backrest > values.yaml
+   helm show values robertobochet/backrest > values.yaml
    ```
 3. Customize the `values.yaml`
 4. Install backrest
    ```shell
-   helm install scraper-bot backrest/backrest -f values.yaml
+   helm install scraper-bot robertobochet/backrest -f values.yaml
    ```
 
 ## Parameters
@@ -47,17 +47,17 @@
 
 | Name               | Description                                                   | Value                   |
 | ------------------ | ------------------------------------------------------------- | ----------------------- |
-| `image.registry`   | image registry, e.g. gcr.io,docker.io                         | `""`                    |
+| `image.registry`   | image registry, e.g. gcr.io,docker.io                         | `docker.io`             |
 | `image.repository` | Image to start for this pod                                   | `garethgeorge/backrest` |
 | `image.tag`        | Visit: Image tag. Defaults to `appVersion` within Chart.yaml. | `""`                    |
 | `image.pullPolicy` | Image pull policy                                             | `IfNotPresent`          |
 
 ### Security
 
-| Name                 | Description          | Value |
-| -------------------- | -------------------- | ----- |
-| `podSecurityContext` | Pod security context | `{}`  |
-| `securityContext`    | Security context     | `{}`  |
+| Name                       | Description          | Value |
+| -------------------------- | -------------------- | ----- |
+| `podSecurityContext`       | Pod security context | `{}`  |
+| `containerSecurityContext` | Security context     | `{}`  |
 
 ### Service
 
@@ -139,7 +139,7 @@
 | Name                                              | Description                                                                                           | Value               |
 | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------- |
 | `persistence.enabled`                             | Enable persistent storage                                                                             | `true`              |
-| `persistence.claimName`                           | Use an existing claim to store repository information                                                 | `backrest-storage`  |
+| `persistence.existingClaim`                       | Use an existing claim to store repository information                                                 | `nil`               |
 | `persistence.size`                                | Size for persistence to store repo information                                                        | `10Gi`              |
 | `persistence.accessModes`                         | AccessMode for persistence                                                                            | `["ReadWriteOnce"]` |
 | `persistence.labels`                              | Labels for the persistence volume claim to be created                                                 | `{}`                |
