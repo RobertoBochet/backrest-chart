@@ -32,8 +32,8 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
+            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -87,7 +87,7 @@ spec:
       {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.claimName }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "backrest.fullname" .) }}
       {{- else if not .Values.persistence.enabled }}
         - name: data
           emptyDir: {}
