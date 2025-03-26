@@ -15,6 +15,6 @@ maintainers:
   - name: Roberto Bochet
     email: r@robertobochet.me
 icon: https://github.com/garethgeorge/backrest/raw/main/webui/assets/logo-black.svg
-appVersion: "1.6.1"
+appVersion: "1.7.3"
 annotations:
   artifacthub.io/license: GPL-3.0-or-later
