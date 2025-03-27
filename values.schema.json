@@ -1,0 +1,477 @@
+{
+    "title": "Chart Values",
+    "type": "object",
+    "properties": {
+        "nameOverride": {
+            "type": "string",
+            "description": "String to partially override common.names.fullname",
+            "default": ""
+        },
+        "fullnameOverride": {
+            "type": "string",
+            "description": "String to fully override common.names.fullname",
+            "default": ""
+        },
+        "imagePullSecrets": {
+            "type": "array",
+            "description": "Secret to use for pulling the image",
+            "default": [],
+            "items": {}
+        },
+        "replicaCount": {
+            "type": "number",
+            "description": "number of replicas for the deployment",
+            "default": 1
+        },
+        "strategy": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "strategy type",
+                    "default": "RollingUpdate"
+                },
+                "rollingUpdate": {
+                    "type": "object",
+                    "properties": {
+                        "maxSurge": {
+                            "type": "string",
+                            "description": "maxSurge",
+                            "default": "100%"
+                        },
+                        "maxUnavailable": {
+                            "type": "number",
+                            "description": "maxUnavailable",
+                            "default": 0
+                        }
+                    }
+                }
+            }
+        },
+        "image": {
+            "type": "object",
+            "properties": {
+                "registry": {
+                    "type": "string",
+                    "description": "image registry, e.g. gcr.io,docker.io",
+                    "default": "docker.io"
+                },
+                "repository": {
+                    "type": "string",
+                    "description": "Image to start for this pod",
+                    "default": "garethgeorge/backrest"
+                },
+                "tag": {
+                    "type": "string",
+                    "description": "Visit: Image tag. Defaults to `appVersion` within Chart.yaml.",
+                    "default": ""
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "description": "Image pull policy",
+                    "default": "IfNotPresent"
+                }
+            }
+        },
+        "podSecurityContext": {
+            "type": "object",
+            "description": "Pod security context",
+            "default": {}
+        },
+        "containerSecurityContext": {
+            "type": "object",
+            "description": "Security context",
+            "default": {}
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "Kubernetes service type for http traffic",
+                    "default": "ClusterIP"
+                },
+                "port": {
+                    "type": "number",
+                    "description": "Port number for web traffic",
+                    "default": 9898
+                },
+                "clusterIP": {
+                    "type": "string",
+                    "description": "ClusterIP setting for http autosetup for deployment is None",
+                    "default": "None"
+                },
+                "loadBalancerIP": {
+                    "type": "string",
+                    "description": "LoadBalancer IP setting",
+                    "default": ""
+                },
+                "nodePort": {
+                    "type": "string",
+                    "description": "NodePort for http service",
+                    "default": ""
+                },
+                "externalTrafficPolicy": {
+                    "type": "string",
+                    "description": "If `service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable source IP preservation",
+                    "default": ""
+                },
+                "externalIPs": {
+                    "type": "array",
+                    "description": "External IPs for service",
+                    "default": [],
+                    "items": {}
+                },
+                "ipFamilyPolicy": {
+                    "type": "string",
+                    "description": "HTTP service dual-stack policy",
+                    "default": ""
+                },
+                "ipFamilies": {
+                    "type": "array",
+                    "description": "HTTP service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/).",
+                    "default": [],
+                    "items": {}
+                },
+                "loadBalancerSourceRanges": {
+                    "type": "array",
+                    "description": "Source range filter for http loadbalancer",
+                    "default": [],
+                    "items": {}
+                },
+                "annotations": {
+                    "type": "object",
+                    "description": "HTTP service annotations",
+                    "default": {}
+                },
+                "labels": {
+                    "type": "object",
+                    "description": "HTTP service additional labels",
+                    "default": {}
+                },
+                "loadBalancerClass": {
+                    "type": "string",
+                    "description": "Loadbalancer class",
+                    "default": ""
+                }
+            }
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable ingress",
+                    "default": false
+                },
+                "className": {
+                    "type": "string",
+                    "description": "Ingress class name",
+                    "default": ""
+                },
+                "annotations": {
+                    "type": "object",
+                    "description": "Ingress annotations",
+                    "default": {}
+                },
+                "hosts": {
+                    "type": "array",
+                    "description": "Default Ingress host",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "host": {
+                                "type": "string",
+                                "description": "Default Ingress host"
+                            },
+                            "paths": {
+                                "type": "array",
+                                "description": "Default Ingress path",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "path": {
+                                            "type": "string",
+                                            "description": "Default Ingress path"
+                                        },
+                                        "pathType": {
+                                            "type": "string",
+                                            "description": "Ingress path type"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tls": {
+                    "type": "array",
+                    "description": "Ingress tls settings",
+                    "default": [],
+                    "items": {}
+                }
+            }
+        },
+        "resources": {
+            "type": "object",
+            "description": "Kubernetes resources",
+            "default": {}
+        },
+        "podAnnotations": {
+            "type": "object",
+            "description": "Annotations",
+            "default": {}
+        },
+        "startupProbe": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable startupProbe",
+                    "default": true
+                },
+                "initialDelaySeconds": {
+                    "type": "number",
+                    "description": "Initial delay seconds for startupProbe",
+                    "default": 10
+                },
+                "periodSeconds": {
+                    "type": "number",
+                    "description": "Period seconds for startupProbe",
+                    "default": 10
+                },
+                "timeoutSeconds": {
+                    "type": "number",
+                    "description": "Timeout seconds for startupProbe",
+                    "default": 1
+                },
+                "failureThreshold": {
+                    "type": "number",
+                    "description": "Failure threshold for startupProbe",
+                    "default": 3
+                },
+                "successThreshold": {
+                    "type": "number",
+                    "description": "Success threshold for startupProbe",
+                    "default": 1
+                }
+            }
+        },
+        "livenessProbe": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable livenessProbe",
+                    "default": true
+                },
+                "initialDelaySeconds": {
+                    "type": "number",
+                    "description": "Initial delay seconds for livenessProbe",
+                    "default": 10
+                },
+                "periodSeconds": {
+                    "type": "number",
+                    "description": "Period seconds for livenessProbe",
+                    "default": 10
+                },
+                "timeoutSeconds": {
+                    "type": "number",
+                    "description": "Timeout seconds for livenessProbe",
+                    "default": 1
+                },
+                "failureThreshold": {
+                    "type": "number",
+                    "description": "Failure threshold for livenessProbe",
+                    "default": 3
+                },
+                "successThreshold": {
+                    "type": "number",
+                    "description": "Success threshold for livenessProbe",
+                    "default": 1
+                }
+            }
+        },
+        "readinessProbe": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable readinessProbe",
+                    "default": true
+                },
+                "initialDelaySeconds": {
+                    "type": "number",
+                    "description": "Initial delay seconds for readinessProbe",
+                    "default": 10
+                },
+                "periodSeconds": {
+                    "type": "number",
+                    "description": "Period seconds for readinessProbe",
+                    "default": 10
+                },
+                "timeoutSeconds": {
+                    "type": "number",
+                    "description": "Timeout seconds for readinessProbe",
+                    "default": 1
+                },
+                "failureThreshold": {
+                    "type": "number",
+                    "description": "Failure threshold for readinessProbe",
+                    "default": 3
+                },
+                "successThreshold": {
+                    "type": "number",
+                    "description": "Success threshold for readinessProbe",
+                    "default": 1
+                }
+            }
+        },
+        "nodeSelector": {
+            "type": "object",
+            "description": "NodeSelector for the deployment",
+            "default": {}
+        },
+        "tolerations": {
+            "type": "array",
+            "description": "Tolerations for the deployment",
+            "default": [],
+            "items": {}
+        },
+        "affinity": {
+            "type": "object",
+            "description": "Affinity for the deployment",
+            "default": {}
+        },
+        "config": {
+            "type": "object",
+            "properties": {
+                "BACKREST_DATA": {
+                    "type": "string",
+                    "description": "Backrest data path",
+                    "default": "/backrest/data"
+                },
+                "BACKREST_CONFIG": {
+                    "type": "string",
+                    "description": "Backrest config path",
+                    "default": "/backrest/config.json"
+                },
+                "BACKREST_PORT": {
+                    "type": "string",
+                    "description": "Backrest webapp port",
+                    "default": "0.0.0.0:9898"
+                }
+            }
+        },
+        "env": {
+            "type": "array",
+            "description": "Additional environment variables to pass to containers",
+            "default": [],
+            "items": {}
+        },
+        "serviceAccount": {
+            "type": "object",
+            "properties": {
+                "create": {
+                    "type": "boolean",
+                    "description": "Enable the creation of a ServiceAccount",
+                    "default": false
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the created ServiceAccount, defaults to release name. Can also link to an externally provided ServiceAccount that should be used.",
+                    "default": ""
+                },
+                "automountServiceAccountToken": {
+                    "type": "boolean",
+                    "description": "Enable/disable auto mounting of the service account token",
+                    "default": false
+                },
+                "imagePullSecrets": {
+                    "type": "array",
+                    "description": "Image pull secrets, available to the ServiceAccount",
+                    "default": [],
+                    "items": {}
+                },
+                "annotations": {
+                    "type": "object",
+                    "description": "Custom annotations for the ServiceAccount",
+                    "default": {}
+                },
+                "labels": {
+                    "type": "object",
+                    "description": "Custom labels for the ServiceAccount",
+                    "default": {}
+                }
+            }
+        },
+        "persistence": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enable persistent storage",
+                    "default": true
+                },
+                "existingClaim": {
+                    "type": "string",
+                    "description": "Use an existing claim to store repository information",
+                    "default": ""
+                },
+                "size": {
+                    "type": "string",
+                    "description": "Size for persistence to store repo information",
+                    "default": "10Gi"
+                },
+                "accessModes": {
+                    "type": "array",
+                    "description": "AccessMode for persistence",
+                    "default": [
+                        "ReadWriteOnce"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "labels": {
+                    "type": "object",
+                    "description": "Labels for the persistence volume claim to be created",
+                    "default": {}
+                },
+                "storageClass": {
+                    "type": "string",
+                    "description": "Name of the storage class to use",
+                    "default": ""
+                },
+                "subPath": {
+                    "type": "string",
+                    "description": "Subdirectory of the volume to mount at",
+                    "default": ""
+                },
+                "volumeName": {
+                    "type": "string",
+                    "description": "Name of persistent volume in PVC",
+                    "default": ""
+                }
+            }
+        },
+        "extraVolumes": {
+            "type": "array",
+            "description": "Additional volumes to mount to the Gitea deployment",
+            "default": [],
+            "items": {}
+        },
+        "extraContainerVolumeMounts": {
+            "type": "array",
+            "description": "Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.",
+            "default": [],
+            "items": {}
+        },
+        "extraObjects": {
+            "type": "array",
+            "description": "Array of extra K8s manifests to deploy",
+            "default": [],
+            "items": {}
+        }
+    }
+}
