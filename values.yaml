@@ -75,16 +75,16 @@ service:
   type: ClusterIP
   port: 9898
   clusterIP: None
-  loadBalancerIP:
-  nodePort:
-  externalTrafficPolicy:
-  externalIPs:
-  ipFamilyPolicy:
-  ipFamilies:
-  loadBalancerSourceRanges: [ ]
-  annotations: { }
-  labels: { }
-  loadBalancerClass:
+  loadBalancerIP: ""
+  nodePort: ""
+  externalTrafficPolicy: ""
+  externalIPs: []
+  ipFamilyPolicy: ""
+  ipFamilies: []
+  loadBalancerSourceRanges: []
+  annotations: {}
+  labels: {}
+  loadBalancerClass: ""
 
 ## @section Ingress
 ## @param ingress.enabled Enable ingress
@@ -224,13 +224,13 @@ serviceAccount:
 ## @param persistence.volumeName Name of persistent volume in PVC
 persistence:
   enabled: true
-  existingClaim:
+  existingClaim: ""
   size: 10Gi
   accessModes:
     - ReadWriteOnce
   labels: {}
-  storageClass:
-  subPath:
+  storageClass: ""
+  subPath: ""
   volumeName: ""
   annotations:
     helm.sh/resource-policy: keep
