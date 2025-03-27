@@ -1,3 +1,5 @@
+name: "Test pull request"
+
 on:
   pull_request:
     types: [labeled, opened, reopened, synchronize]
