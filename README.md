@@ -66,16 +66,16 @@
 | `service.type`                     | Kubernetes service type for http traffic                                                                                                                                                             | `ClusterIP` |
 | `service.port`                     | Port number for web traffic                                                                                                                                                                          | `9898`      |
 | `service.clusterIP`                | ClusterIP setting for http autosetup for deployment is None                                                                                                                                          | `None`      |
-| `service.loadBalancerIP`           | LoadBalancer IP setting                                                                                                                                                                              | `nil`       |
-| `service.nodePort`                 | NodePort for http service                                                                                                                                                                            | `nil`       |
-| `service.externalTrafficPolicy`    | If `service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable source IP preservation                                                                                              | `nil`       |
-| `service.externalIPs`              | External IPs for service                                                                                                                                                                             | `nil`       |
-| `service.ipFamilyPolicy`           | HTTP service dual-stack policy                                                                                                                                                                       | `nil`       |
-| `service.ipFamilies`               | HTTP service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/). | `nil`       |
+| `service.loadBalancerIP`           | LoadBalancer IP setting                                                                                                                                                                              | `""`        |
+| `service.nodePort`                 | NodePort for http service                                                                                                                                                                            | `""`        |
+| `service.externalTrafficPolicy`    | If `service.type` is `NodePort` or `LoadBalancer`, set this to `Local` to enable source IP preservation                                                                                              | `""`        |
+| `service.externalIPs`              | External IPs for service                                                                                                                                                                             | `[]`        |
+| `service.ipFamilyPolicy`           | HTTP service dual-stack policy                                                                                                                                                                       | `""`        |
+| `service.ipFamilies`               | HTTP service dual-stack familiy selection,for dual-stack parameters see official kubernetes [dual-stack concept documentation](https://kubernetes.io/docs/concepts/services-networking/dual-stack/). | `[]`        |
 | `service.loadBalancerSourceRanges` | Source range filter for http loadbalancer                                                                                                                                                            | `[]`        |
 | `service.annotations`              | HTTP service annotations                                                                                                                                                                             | `{}`        |
 | `service.labels`                   | HTTP service additional labels                                                                                                                                                                       | `{}`        |
-| `service.loadBalancerClass`        | Loadbalancer class                                                                                                                                                                                   | `nil`       |
+| `service.loadBalancerClass`        | Loadbalancer class                                                                                                                                                                                   | `""`        |
 
 ### Ingress
 
@@ -139,13 +139,13 @@
 | Name                                              | Description                                                                                           | Value               |
 | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------- |
 | `persistence.enabled`                             | Enable persistent storage                                                                             | `true`              |
-| `persistence.existingClaim`                       | Use an existing claim to store repository information                                                 | `nil`               |
+| `persistence.existingClaim`                       | Use an existing claim to store repository information                                                 | `""`                |
 | `persistence.size`                                | Size for persistence to store repo information                                                        | `10Gi`              |
 | `persistence.accessModes`                         | AccessMode for persistence                                                                            | `["ReadWriteOnce"]` |
 | `persistence.labels`                              | Labels for the persistence volume claim to be created                                                 | `{}`                |
 | `persistence.annotations.helm.sh/resource-policy` | Resource policy for the persistence volume claim                                                      | `keep`              |
-| `persistence.storageClass`                        | Name of the storage class to use                                                                      | `nil`               |
-| `persistence.subPath`                             | Subdirectory of the volume to mount at                                                                | `nil`               |
+| `persistence.storageClass`                        | Name of the storage class to use                                                                      | `""`                |
+| `persistence.subPath`                             | Subdirectory of the volume to mount at                                                                | `""`                |
 | `persistence.volumeName`                          | Name of persistent volume in PVC                                                                      | `""`                |
 | `cache`                                           | Volume for cache                                                                                      |                     |
 | `extraVolumes`                                    | Additional volumes to mount to the Gitea deployment                                                   | `[]`                |
