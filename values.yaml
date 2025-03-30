@@ -182,14 +182,16 @@ tolerations: []
 ## @param affinity Affinity for the deployment
 affinity: {}
 
-## @extra config Backrest configuration pass to container as environment variables
+## @extra config Backrest configuration forwarded to container as environment variables
 ## @param config.BACKREST_DATA Backrest data path
 ## @param config.BACKREST_CONFIG Backrest config path
 ## @param config.BACKREST_PORT Backrest webapp port
+## @param config.XDG_CACHE_HOME Backrest cache path
 config:
-  BACKREST_DATA: /backrest/data
-  BACKREST_CONFIG: /backrest/config.json
-  BACKREST_PORT: "0.0.0.0:9898"
+  BACKREST_DATA: "{{ .Values.persistence.mountPath }}/data"
+  BACKREST_CONFIG: "{{ .Values.persistence.mountPath }}/config.json"
+  BACKREST_PORT: "0.0.0.0:{{ .Values.service.port}}"
+  XDG_CACHE_HOME: "{{ .Values.cache.mountPath }}"
 
 ## @param env  Additional environment variables to pass to containers
 env: []
@@ -221,6 +223,7 @@ serviceAccount:
 ## @param persistence.annotations.helm.sh/resource-policy Resource policy for the persistence volume claim
 ## @param persistence.storageClass Name of the storage class to use
 ## @param persistence.subPath Subdirectory of the volume to mount at
+## @param persistence.mountPath Directory of the container to mount at
 ## @param persistence.volumeName Name of persistent volume in PVC
 persistence:
   enabled: true
@@ -231,20 +234,23 @@ persistence:
   labels: {}
   storageClass: ""
   subPath: ""
+  mountPath: /data
   volumeName: ""
   annotations:
     helm.sh/resource-policy: keep
 
 ## @extra cache Volume for cache
+## @param cache.mountPath Directory of the container to mount at
 ## @skip cache.emptyDir
 cache:
+  mountPath: /cache
   emptyDir: {}
 
 ## @param extraVolumes Additional volumes to mount to the Gitea deployment
 extraVolumes: []
-# - name: postgres-ssl-vol
+# - name: ssl
 #   secret:
-#     secretName: gitea-postgres-ssl
+#     secretName: backrest-ssl
 
 ## @param extraContainerVolumeMounts Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates.
 extraContainerVolumeMounts: []

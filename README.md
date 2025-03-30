@@ -92,36 +92,37 @@
 
 ### deployment
 
-| Name                                 | Description                                                       | Value                   |
-| ------------------------------------ | ----------------------------------------------------------------- | ----------------------- |
-| `resources`                          | Kubernetes resources                                              | `{}`                    |
-| `podAnnotations`                     | Annotations                                                       | `{}`                    |
-| `startupProbe.enabled`               | Enable startupProbe                                               | `true`                  |
-| `startupProbe.initialDelaySeconds`   | Initial delay seconds for startupProbe                            | `10`                    |
-| `startupProbe.periodSeconds`         | Period seconds for startupProbe                                   | `10`                    |
-| `startupProbe.timeoutSeconds`        | Timeout seconds for startupProbe                                  | `1`                     |
-| `startupProbe.failureThreshold`      | Failure threshold for startupProbe                                | `3`                     |
-| `startupProbe.successThreshold`      | Success threshold for startupProbe                                | `1`                     |
-| `livenessProbe.enabled`              | Enable livenessProbe                                              | `true`                  |
-| `livenessProbe.initialDelaySeconds`  | Initial delay seconds for livenessProbe                           | `10`                    |
-| `livenessProbe.periodSeconds`        | Period seconds for livenessProbe                                  | `10`                    |
-| `livenessProbe.timeoutSeconds`       | Timeout seconds for livenessProbe                                 | `1`                     |
-| `livenessProbe.failureThreshold`     | Failure threshold for livenessProbe                               | `3`                     |
-| `livenessProbe.successThreshold`     | Success threshold for livenessProbe                               | `1`                     |
-| `readinessProbe.enabled`             | Enable readinessProbe                                             | `true`                  |
-| `readinessProbe.initialDelaySeconds` | Initial delay seconds for readinessProbe                          | `10`                    |
-| `readinessProbe.periodSeconds`       | Period seconds for readinessProbe                                 | `10`                    |
-| `readinessProbe.timeoutSeconds`      | Timeout seconds for readinessProbe                                | `1`                     |
-| `readinessProbe.failureThreshold`    | Failure threshold for readinessProbe                              | `3`                     |
-| `readinessProbe.successThreshold`    | Success threshold for readinessProbe                              | `1`                     |
-| `nodeSelector`                       | NodeSelector for the deployment                                   | `{}`                    |
-| `tolerations`                        | Tolerations for the deployment                                    | `[]`                    |
-| `affinity`                           | Affinity for the deployment                                       | `{}`                    |
-| `config`                             | Backrest configuration pass to container as environment variables |                         |
-| `config.BACKREST_DATA`               | Backrest data path                                                | `/backrest/data`        |
-| `config.BACKREST_CONFIG`             | Backrest config path                                              | `/backrest/config.json` |
-| `config.BACKREST_PORT`               | Backrest webapp port                                              | `0.0.0.0:9898`          |
-| `env`                                | Additional environment variables to pass to containers            | `[]`                    |
+| Name                                 | Description                                                            | Value                                             |
+| ------------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------- |
+| `resources`                          | Kubernetes resources                                                   | `{}`                                              |
+| `podAnnotations`                     | Annotations                                                            | `{}`                                              |
+| `startupProbe.enabled`               | Enable startupProbe                                                    | `true`                                            |
+| `startupProbe.initialDelaySeconds`   | Initial delay seconds for startupProbe                                 | `10`                                              |
+| `startupProbe.periodSeconds`         | Period seconds for startupProbe                                        | `10`                                              |
+| `startupProbe.timeoutSeconds`        | Timeout seconds for startupProbe                                       | `1`                                               |
+| `startupProbe.failureThreshold`      | Failure threshold for startupProbe                                     | `3`                                               |
+| `startupProbe.successThreshold`      | Success threshold for startupProbe                                     | `1`                                               |
+| `livenessProbe.enabled`              | Enable livenessProbe                                                   | `true`                                            |
+| `livenessProbe.initialDelaySeconds`  | Initial delay seconds for livenessProbe                                | `10`                                              |
+| `livenessProbe.periodSeconds`        | Period seconds for livenessProbe                                       | `10`                                              |
+| `livenessProbe.timeoutSeconds`       | Timeout seconds for livenessProbe                                      | `1`                                               |
+| `livenessProbe.failureThreshold`     | Failure threshold for livenessProbe                                    | `3`                                               |
+| `livenessProbe.successThreshold`     | Success threshold for livenessProbe                                    | `1`                                               |
+| `readinessProbe.enabled`             | Enable readinessProbe                                                  | `true`                                            |
+| `readinessProbe.initialDelaySeconds` | Initial delay seconds for readinessProbe                               | `10`                                              |
+| `readinessProbe.periodSeconds`       | Period seconds for readinessProbe                                      | `10`                                              |
+| `readinessProbe.timeoutSeconds`      | Timeout seconds for readinessProbe                                     | `1`                                               |
+| `readinessProbe.failureThreshold`    | Failure threshold for readinessProbe                                   | `3`                                               |
+| `readinessProbe.successThreshold`    | Success threshold for readinessProbe                                   | `1`                                               |
+| `nodeSelector`                       | NodeSelector for the deployment                                        | `{}`                                              |
+| `tolerations`                        | Tolerations for the deployment                                         | `[]`                                              |
+| `affinity`                           | Affinity for the deployment                                            | `{}`                                              |
+| `config`                             | Backrest configuration forwarded to container as environment variables |                                                   |
+| `config.BACKREST_DATA`               | Backrest data path                                                     | `{{ .Values.persistence.mountPath }}/data`        |
+| `config.BACKREST_CONFIG`             | Backrest config path                                                   | `{{ .Values.persistence.mountPath }}/config.json` |
+| `config.BACKREST_PORT`               | Backrest webapp port                                                   | `0.0.0.0:{{ .Values.service.port}}`               |
+| `config.XDG_CACHE_HOME`              | Backrest cache path                                                    | `{{ .Values.cache.mountPath }}`                   |
+| `env`                                | Additional environment variables to pass to containers                 | `[]`                                              |
 
 ### ServiceAccount
 
@@ -146,8 +147,10 @@
 | `persistence.annotations.helm.sh/resource-policy` | Resource policy for the persistence volume claim                                                      | `keep`              |
 | `persistence.storageClass`                        | Name of the storage class to use                                                                      | `""`                |
 | `persistence.subPath`                             | Subdirectory of the volume to mount at                                                                | `""`                |
+| `persistence.mountPath`                           | Directory of the container to mount at                                                                | `/data`             |
 | `persistence.volumeName`                          | Name of persistent volume in PVC                                                                      | `""`                |
 | `cache`                                           | Volume for cache                                                                                      |                     |
+| `cache.mountPath`                                 | Directory of the container to mount at                                                                | `/cache`            |
 | `extraVolumes`                                    | Additional volumes to mount to the Gitea deployment                                                   | `[]`                |
 | `extraContainerVolumeMounts`                      | Mounts that are only mapped into the Gitea runtime/main container, to e.g. override custom templates. | `[]`                |
 
