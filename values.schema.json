@@ -349,17 +349,22 @@
                 "BACKREST_DATA": {
                     "type": "string",
                     "description": "Backrest data path",
-                    "default": "/backrest/data"
+                    "default": "{{ .Values.persistence.mountPath }}/data"
                 },
                 "BACKREST_CONFIG": {
                     "type": "string",
                     "description": "Backrest config path",
-                    "default": "/backrest/config.json"
+                    "default": "{{ .Values.persistence.mountPath }}/config.json"
                 },
                 "BACKREST_PORT": {
                     "type": "string",
                     "description": "Backrest webapp port",
-                    "default": "0.0.0.0:9898"
+                    "default": "0.0.0.0:{{ .Values.service.port}}"
+                },
+                "XDG_CACHE_HOME": {
+                    "type": "string",
+                    "description": "Backrest cache path",
+                    "default": "{{ .Values.cache.mountPath }}"
                 }
             }
         },
@@ -448,10 +453,25 @@
                     "description": "Subdirectory of the volume to mount at",
                     "default": ""
                 },
+                "mountPath": {
+                    "type": "string",
+                    "description": "Directory of the container to mount at",
+                    "default": "/data"
+                },
                 "volumeName": {
                     "type": "string",
                     "description": "Name of persistent volume in PVC",
                     "default": ""
+                }
+            }
+        },
+        "cache": {
+            "type": "object",
+            "properties": {
+                "mountPath": {
+                    "type": "string",
+                    "description": "Directory of the container to mount at",
+                    "default": "/cache"
                 }
             }
         },

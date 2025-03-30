@@ -46,6 +46,8 @@ spec:
               value: {{ tpl .Values.config.BACKREST_CONFIG . }}
             - name: BACKREST_PORT
               value: {{ tpl .Values.config.BACKREST_PORT . }}
+            - name: XDG_CACHE_HOME
+              value: {{ tpl .Values.config.XDG_CACHE_HOME . }}
             {{- if gt (len .Values.env) 0 }}
               {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
@@ -74,12 +76,12 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: data
-              mountPath: /data
-            - name: cache
-              mountPath: /cache
+              mountPath: {{ .Values.persistence.mountPath }}
             {{- if .Values.persistence.subPath }}
               subPath: {{ .Values.persistence.subPath }}
             {{- end }}
+            - name: cache
+              mountPath: {{ .Values.cache.mountPath }}
             {{- if gt (len .Values.extraContainerVolumeMounts) 0 }}
               {{- toYaml .Values.extraContainerVolumeMounts | nindent 12 }}
             {{- end }}
@@ -93,7 +95,7 @@ spec:
           emptyDir: {}
       {{- end }}
         - name: cache
-          {{- toYaml .Values.cache | nindent 10 }}
+          {{- omit .Values.cache "mountPath" | toYaml | nindent 10 }}
       {{- if gt (len .Values.extraVolumes) 0 }}
         {{- toYaml .Values.extraVolumes | nindent 8 }}
       {{- end }}
