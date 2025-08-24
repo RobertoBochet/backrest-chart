@@ -62,20 +62,6 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Docker Image Registry Secret Names evaluating values as templates
-*/}}
-{{- define "backrest.images.pullSecrets" -}}
-{{- $pullSecrets := .Values.imagePullSecrets -}}
-{{- range .Values.imagePullSecrets -}}
-    {{- $pullSecrets = append $pullSecrets (dict "name" .) -}}
-{{- end -}}
-{{- if (not (empty $pullSecrets)) }}
-imagePullSecrets:
-{{ toYaml $pullSecrets }}
-{{- end }}
-{{- end -}}
-
-{{/*
 Storage Class
 */}}
 {{- define "backrest.persistence.storageClass" -}}
