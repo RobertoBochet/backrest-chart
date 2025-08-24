@@ -12,19 +12,6 @@ fullnameOverride: ""
 ## @param imagePullSecrets Secret to use for pulling the image
 imagePullSecrets: []
 
-## @param replicaCount number of replicas for the deployment
-replicaCount: 1
-
-## @section strategy
-## @param strategy.type strategy type
-## @param strategy.rollingUpdate.maxSurge maxSurge
-## @param strategy.rollingUpdate.maxUnavailable maxUnavailable
-strategy:
-  type: "RollingUpdate"
-  rollingUpdate:
-    maxSurge: "100%"
-    maxUnavailable: 0
-
 ## @section Image
 ## @param image.registry image registry, e.g. gcr.io,docker.io
 ## @param image.repository Image to start for this pod

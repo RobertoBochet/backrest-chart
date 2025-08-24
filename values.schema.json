@@ -16,36 +16,13 @@
             "type": "array",
             "description": "Secret to use for pulling the image",
             "default": [],
-            "items": {}
-        },
-        "replicaCount": {
-            "type": "number",
-            "description": "number of replicas for the deployment",
-            "default": 1
-        },
-        "strategy": {
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "description": "strategy type",
-                    "default": "RollingUpdate"
-                },
-                "rollingUpdate": {
-                    "type": "object",
-                    "properties": {
-                        "maxSurge": {
-                            "type": "string",
-                            "description": "maxSurge",
-                            "default": "100%"
-                        },
-                        "maxUnavailable": {
-                            "type": "number",
-                            "description": "maxUnavailable",
-                            "default": 0
-                        }
-                    }
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
                 }
+              }
             }
         },
         "image": {
