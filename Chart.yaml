@@ -14,7 +14,7 @@ sources:
 maintainers:
   - name: Roberto Bochet
     email: r@robertobochet.me
-appVersion: "1.8.1"
+appVersion: "1.9.2"
 annotations:
   artifacthub.io/license: GPL-3.0-or-later
 
