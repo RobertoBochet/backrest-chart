@@ -37,11 +37,11 @@
 
 ### strategy
 
-| Name                                    | Description    | Value           |
-| --------------------------------------- | -------------- | --------------- |
-| `strategy.type`                         | strategy type  | `RollingUpdate` |
-| `strategy.rollingUpdate.maxSurge`       | maxSurge       | `100%`          |
-| `strategy.rollingUpdate.maxUnavailable` | maxUnavailable | `0`             |
+| Name                                    | Description    | Value      |
+| --------------------------------------- | -------------- | ---------- |
+| `strategy.type`                         | strategy type  | `Recreate` |
+| `strategy.rollingUpdate.maxSurge`       | maxSurge       | `100%`     |
+| `strategy.rollingUpdate.maxUnavailable` | maxUnavailable | `0`        |
 
 ### Image
 

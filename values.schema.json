@@ -29,7 +29,7 @@
                 "type": {
                     "type": "string",
                     "description": "strategy type",
-                    "default": "RollingUpdate"
+                    "default": "Recreate"
                 },
                 "rollingUpdate": {
                     "type": "object",
