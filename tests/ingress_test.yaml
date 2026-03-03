@@ -1,0 +1,53 @@
+---
+suite: Ingress test
+templates:
+  - templates/ingress.yaml
+tests:
+
+  - it: Ingress should not be rendered by default
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render Ingress when enabled
+    set:
+      ingress:
+        enabled: true
+
+    asserts:
+      - isKind:
+          of: Ingress
+      - notExists:
+          path: spec.ingressClassName
+      - notExists:
+          path: spec.tls
+      - lengthEqual:
+          path: spec.rules
+          count: 1
+
+  - it: should render Ingress following the provided values
+    set:
+      ingress:
+        enabled: true
+        annotations:
+          test: ingress
+        className: ingress-class-test
+        tls:
+          - secretName: tls-test
+            hosts:
+              - backrest.ingress.local
+
+    asserts:
+      - equal:
+          path: metadata.annotations
+          value:
+            test: ingress
+      - equal:
+          path: spec.ingressClassName
+          value: ingress-class-test
+      - equal:
+          path: spec.tls
+          value:
+            - secretName: tls-test
+              hosts:
+                - backrest.ingress.local
