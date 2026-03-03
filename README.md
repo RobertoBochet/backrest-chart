@@ -90,6 +90,20 @@
 | `ingress.tls`                        | Ingress tls settings                                                        | `[]`                     |
 | `ingress.apiVersion`                 | Specify APIVersion of ingress object. Mostly would only be used for argocd. |                          |
 
+### Gateway-API HTTPRoute
+
+| Name                                        | Description                                                                              | Value        |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------ |
+| `httpRoute.enabled`                         | Enables Gateway API HTTPRoute                                                            | `false`      |
+| `httpRoute.annotations`                     | Annotations to add to the HTTPRoute resource                                             | `{}`         |
+| `httpRoute.parentRefs`                      | List of parentRefs for the HTTPRoute, typically referencing the Gateway(name, namespace) | `[]`         |
+| `httpRoute.hostnames`                       | Hostnames this HTTPRoute applies to                                                      | `[]`         |
+| `httpRoute.matches.path.type`               | Type of path match (e.g., PathPrefix or Exact or RegularExpression)                      | `PathPrefix` |
+| `httpRoute.matches.path.value`              | Path value for matching incoming requests                                                | `/`          |
+| `httpRoute.matches.timeouts.request`        | Maximum time the Gateway waits to complete the full client request and response cycle.   |              |
+| `httpRoute.matches.timeouts.backendRequest` | Maximum time the Gateway waits for a response from the backend service.                  |              |
+| `httpRoute.filters`                         | Filters to apply on HTTP requests, such as header rewrites or request redirects          | `[]`         |
+
 ### deployment
 
 | Name                                 | Description                                                            | Value                                             |

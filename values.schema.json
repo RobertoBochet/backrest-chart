@@ -212,6 +212,59 @@
                 }
             }
         },
+        "httpRoute": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Enables Gateway API HTTPRoute",
+                    "default": false
+                },
+                "annotations": {
+                    "type": "object",
+                    "description": "Annotations to add to the HTTPRoute resource",
+                    "default": {}
+                },
+                "parentRefs": {
+                    "type": "array",
+                    "description": "List of parentRefs for the HTTPRoute, typically referencing the Gateway(name, namespace)",
+                    "default": [],
+                    "items": {}
+                },
+                "hostnames": {
+                    "type": "array",
+                    "description": "Hostnames this HTTPRoute applies to",
+                    "default": [],
+                    "items": {}
+                },
+                "matches": {
+                    "type": "object",
+                    "properties": {
+                        "path": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "description": "Type of path match (e.g., PathPrefix or Exact or RegularExpression)",
+                                    "default": "PathPrefix"
+                                },
+                                "value": {
+                                    "type": "string",
+                                    "description": "Path value for matching incoming requests",
+                                    "default": "/"
+                                }
+                            }
+                        }
+                    }
+                },
+                "filters": {
+                    "type": "array",
+                    "description": "Filters to apply on HTTP requests, such as header rewrites or request redirects",
+                    "default": [],
+                    "items": {}
+                }
+            }
+        },
         "resources": {
             "type": "object",
             "description": "Kubernetes resources",
