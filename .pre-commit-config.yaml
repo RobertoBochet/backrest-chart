@@ -21,3 +21,10 @@ repos:
     hooks:
       - id: markdown-link-check
         args: [ -q ]
+  - repo: local
+    hooks:
+      - id: helm-unittest
+        name: helm unittest
+        entry: helm unittest .
+        language: system
+        pass_filenames: false
