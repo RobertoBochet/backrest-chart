@@ -6,9 +6,27 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
+  test-release:
+    name: "Test release"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Azure/setup-helm@v4
+        with:
+          version: "4.1.1"
+      - name: Install Helm unittest plugin
+        run: |
+          helm plugin install --verify=false https://github.com/helm-unittest/helm-unittest.git
+      - name: Build dependencies
+        run: |
+          helm dependency update
+      - uses: pre-commit/action@v3.0.1
+
+
   build-chart:
     name: "Build chart"
     runs-on: ubuntu-latest
+    needs: test-release
     steps:
       - uses: actions/checkout@v4
       - name: Set chart version
@@ -19,7 +37,7 @@ jobs:
       - name: Helm tool installer
         uses: Azure/setup-helm@v4
         with:
-          version: "3.17.2"
+          version: "4.1.1"
       - name: Build chart
         run: |
           helm dependency update
