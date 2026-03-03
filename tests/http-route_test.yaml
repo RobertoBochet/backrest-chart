@@ -1,0 +1,140 @@
+---
+suite: HTTPRoute test
+templates:
+  - templates/http-route.yaml
+tests:
+
+  - it: HTTPRoute should not be rendered by default
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render HTTPRoute when enabled
+    set:
+      httpRoute:
+        enabled: true
+
+    asserts:
+      - isKind:
+          of: HTTPRoute
+      - notExists:
+          path: metadata.annotations
+      - notExists:
+          path: spec.hostnames
+      - notExists:
+          path: spec.parentRefs
+      - lengthEqual:
+          path: spec.rules
+          count: 1
+      - lengthEqual:
+          path: spec.rules[0].matches
+          count: 1
+      - lengthEqual:
+          path: spec.rules[0].backendRefs
+          count: 1
+      - notExists:
+          path: spec.rules[0].timeouts
+      - equal:
+          path: spec.rules[0].matches[0].path.type
+          value: PathPrefix
+      - equal:
+          path: spec.rules[0].matches[0].path.value
+          value: "/"
+      - notExists:
+          path: spec.rules[0].filters
+
+  - it: should render HTTPRoute following the provided values
+    set:
+      httpRoute:
+        enabled: true
+        annotations:
+          test: true
+        parentRefs:
+          - name: gateway-test
+            namespace: gateway-namespace-test
+        hostnames:
+          - backrest.httproute.local
+        matches:
+          timeouts:
+            request: 10s
+            backendRequest: 5s
+        filters:
+          - type: RequestHeaderModifier
+            requestHeaderModifier:
+              add:
+                - name: my-header
+                  value: foo
+
+    asserts:
+      - equal:
+          path: metadata.annotations
+          value:
+            test: true
+      - equal:
+          path: spec.parentRefs
+          value:
+            - name: gateway-test
+              namespace: gateway-namespace-test
+      - equal:
+          path: spec.hostnames
+          value:
+            - backrest.httproute.local
+      - equal:
+          path: spec.rules[0].timeouts
+          value:
+            request: 10s
+            backendRequest: 5s
+      - equal:
+          path: spec.rules[0].filters
+          value:
+            - type: RequestHeaderModifier
+              requestHeaderModifier:
+                add:
+                  - name: my-header
+                    value: foo
+
+---
+suite: HTTPRoute Service reference test
+templates:
+  - templates/http-route.yaml
+  - templates/service.yaml
+tests:
+  - it: Service and HTTPRoute backend reference should agree
+    release:
+      name: test
+    set:
+      httpRoute:
+        enabled: true
+      service:
+        port: 1234
+
+    asserts:
+      - equal:
+          path: spec.rules[0].backendRefs[0].name
+          value: "test-backrest"
+        documentSelector:
+          path: kind
+          value: HTTPRoute
+          skipEmptyTemplates: true
+      - equal:
+          path: spec.rules[0].backendRefs[0].port
+          value: 1234
+        documentSelector:
+          path: kind
+          value: HTTPRoute
+          skipEmptyTemplates: true
+
+      - equal:
+          path: metadata.name
+          value: "test-backrest"
+        documentSelector:
+          path: kind
+          value: Service
+          skipEmptyTemplates: true
+      - equal:
+          path: spec.ports[0].port
+          value: 1234
+        documentSelector:
+          path: kind
+          value: Service
+          skipEmptyTemplates: true
