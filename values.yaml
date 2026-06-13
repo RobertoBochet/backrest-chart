@@ -213,7 +213,7 @@ affinity: {}
 config:
   BACKREST_DATA: "{{ .Values.persistence.mountPath }}/data"
   BACKREST_CONFIG: "{{ .Values.persistence.mountPath }}/config.json"
-  BACKREST_PORT: "0.0.0.0:{{ .Values.service.port}}"
+  BACKREST_PORT: 9898
   XDG_CACHE_HOME: "{{ .Values.cache.mountPath }}"
 
 ## @param env  Additional environment variables to pass to containers

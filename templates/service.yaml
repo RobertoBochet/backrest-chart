@@ -48,6 +48,6 @@ spec:
     {{- if  .Values.service.nodePort }}
       nodePort: {{ .Values.service.nodePort }}
     {{- end }}
-      targetPort: {{ .Values.service.port }}
+      targetPort: {{ .Values.config.BACKREST_PORT }}
   selector:
     {{- include "backrest.selectorLabels" . | nindent 4 }}
