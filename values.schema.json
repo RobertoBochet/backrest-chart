@@ -412,7 +412,7 @@
                 "BACKREST_PORT": {
                     "type": "number",
                     "description": "Backrest webapp port",
-                    "default": "9898"
+                    "default": 9898
                 },
                 "XDG_CACHE_HOME": {
                     "type": "string",

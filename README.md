@@ -134,7 +134,7 @@
 | `config`                             | Backrest configuration forwarded to container as environment variables |                                                   |
 | `config.BACKREST_DATA`               | Backrest data path                                                     | `{{ .Values.persistence.mountPath }}/data`        |
 | `config.BACKREST_CONFIG`             | Backrest config path                                                   | `{{ .Values.persistence.mountPath }}/config.json` |
-| `config.BACKREST_PORT`               | Backrest webapp port                                                   | `0.0.0.0:{{ .Values.service.port}}`               |
+| `config.BACKREST_PORT`               | Backrest webapp port                                                   | `9898`               |
 | `config.XDG_CACHE_HOME`              | Backrest cache path                                                    | `{{ .Values.cache.mountPath }}`                   |
 | `env`                                | Additional environment variables to pass to containers                 | `[]`                                              |
 
