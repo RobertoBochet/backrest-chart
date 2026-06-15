@@ -409,11 +409,6 @@
                     "description": "Backrest config path",
                     "default": "{{ .Values.persistence.mountPath }}/config.json"
                 },
-                "BACKREST_PORT": {
-                    "type": "string",
-                    "description": "Backrest webapp port",
-                    "default": "0.0.0.0:{{ .Values.service.port}}"
-                },
                 "XDG_CACHE_HOME": {
                     "type": "string",
                     "description": "Backrest cache path",

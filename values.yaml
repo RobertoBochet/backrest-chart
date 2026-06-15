@@ -208,12 +208,10 @@ affinity: {}
 ## @extra config Backrest configuration forwarded to container as environment variables
 ## @param config.BACKREST_DATA Backrest data path
 ## @param config.BACKREST_CONFIG Backrest config path
-## @param config.BACKREST_PORT Backrest webapp port
 ## @param config.XDG_CACHE_HOME Backrest cache path
 config:
   BACKREST_DATA: "{{ .Values.persistence.mountPath }}/data"
   BACKREST_CONFIG: "{{ .Values.persistence.mountPath }}/config.json"
-  BACKREST_PORT: "0.0.0.0:{{ .Values.service.port}}"
   XDG_CACHE_HOME: "{{ .Values.cache.mountPath }}"
 
 ## @param env  Additional environment variables to pass to containers
