@@ -59,8 +59,9 @@ jobs:
         run: |
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-          git add *.tgz
-          export CHART_FILENAMES="$(git --no-pager diff --name-only --cached -- '*.tgz' | tr '\n' ' ')"
+          git add ./*.tgz
+          CHART_FILENAMES="$(git --no-pager diff --name-only --cached -- './*.tgz' | tr '\n' ' ')"
+          export CHART_FILENAMES
           git commit -m "Add ${CHART_FILENAMES}"
           git push origin charts
 
