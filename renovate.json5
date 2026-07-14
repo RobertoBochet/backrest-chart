@@ -1,0 +1,98 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": [
+    ":dependencyDashboard",
+    ":configMigration",
+    "helpers:pinGitHubActionDigests"
+  ],
+
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 15,
+
+  "automerge": false,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "platformAutomerge": true,
+
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "",
+
+  "enabledManagers": [
+    "custom.regex",
+    "pre-commit",
+    "github-actions"
+  ],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^Chart\\.yaml$/"],
+      "matchStrings": [
+        "appVersion:\\s*\"?(?<currentValue>[^\\s\"]+)\"?"
+      ],
+      "depNameTemplate": "docker.io/garethgeorge/backrest",
+      "datasourceTemplate": "docker"
+    }
+  ],
+
+  "pre-commit": {
+    "enabled": true
+  },
+
+  "packageRules": [
+    {
+      "matchPackageNames": ["docker.io/garethgeorge/backrest"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "commitMessageAction": "bump",
+      "commitMessageTopic": "backrest",
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "app",
+      "automerge": true
+    },
+    {
+      "matchPackageNames": ["docker.io/garethgeorge/backrest"],
+      "matchUpdateTypes": ["major", "minor"],
+      "commitMessageAction": "update",
+      "semanticCommitType": "feat",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["docker.io/garethgeorge/backrest"],
+      "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat(app)!:",
+      "automerge": false
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "groupName": "pre-commit hooks",
+      "minimumReleaseAge": "3 days",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "pre-commit",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["major"],
+      "groupName": null,
+      "automerge": false
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major", "minor", "patch", "digest"],
+      "groupName": "workflow actions",
+      "minimumReleaseAge": "3 days",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "",
+      "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "groupName": null,
+      "automerge": false
+    }
+  ]
+}
